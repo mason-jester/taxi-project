@@ -8,6 +8,7 @@ import pandas as pd
 def check_directory(directory_name) -> str:
     """
     Checks that the directory_name exists in the current working directory
+
     If it does not exist, creates the directory_name
     """
     #create the target path from working directory and user input directory name
@@ -22,10 +23,11 @@ def check_directory(directory_name) -> str:
     return target_path
 
 def create_dl_url(year:int, month:int, 
-                  base_url: str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/', car_type: str = 'yellow') -> str:
+                  base_url:str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/', car_type:str = 'yellow') -> str:
     
     """
     Creates the url from which to request files
+
     Defaults for base_url and car_type assume that we are interested in yellow taxi data
     """
 
@@ -35,7 +37,7 @@ def create_dl_url(year:int, month:int,
 
     return download_url, filename
 
-def collect_data(year:int, month:int, car_type: str ="yellow", 
+def stage_data(year:int, month:int, car_type: str ="yellow", 
                  directory_name: str = 'file-staging', base_url: str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/') -> None:
     """
     Function to create the URL with which to download the parquet file from the NYC Taxi dataset
@@ -50,20 +52,24 @@ def collect_data(year:int, month:int, car_type: str ="yellow",
     #check that year, month, and car_type are acceptable
 
     #will need to be in for loop eventually
-    download_url, filename = create_dl_url(year, month, car_type)
+    download_url, filename = create_dl_url(year, month, car_type = car_type)
     write_path = os.path.join(staging_path, filename)
 
     try:
         response = requests.get(download_url)
 
         print(response.status_code)
+
     
     except:
         print(f'{download_url} returned error')
 
+    #check that the respoonse code is valid before sending file to staging
+    if response.status_code == 200:
+        with open(write_path, 'wb') as f:
+            f.write(response.content)
+    else:
+        print('response code:')
+        print(response.status_code)
 
-    with open(write_path, 'wb') as f:
-        f.write(response.content)
-    
     return
-
