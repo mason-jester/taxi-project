@@ -1,9 +1,5 @@
 import requests
 import os
-from datetime import datetime, timedelta
-import sys
-import pyarrow.parquet as pq
-import pandas as pd
 
 def check_directory(directory_name) -> str:
     """
@@ -17,6 +13,7 @@ def check_directory(directory_name) -> str:
     #check that the file staging folder exists
     if os.path.exists(target_path):
         pass
+
     else:
         os.makedirs(target_path)
     
@@ -51,7 +48,7 @@ def stage_data(year:int, month:int, car_type: str ="yellow",
 
     #check that year, month, and car_type are acceptable
 
-    #will need to be in for loop eventually
+    #will need to be in for loop eventually -> nevermind, put for loop in main
     download_url, filename = create_dl_url(year, month, car_type = car_type)
     write_path = os.path.join(staging_path, filename)
 
@@ -68,8 +65,10 @@ def stage_data(year:int, month:int, car_type: str ="yellow",
     if response.status_code == 200:
         with open(write_path, 'wb') as f:
             f.write(response.content)
+
     else:
         print('response code:')
         print(response.status_code)
 
     return
+
