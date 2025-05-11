@@ -37,11 +37,11 @@ def create_dl_url(year:int, month:int,
 def stage_data(year:int, month:int, car_type: str ="yellow", 
                  directory_name: str = 'file-staging', base_url: str = 'https://d37ci6vzurychx.cloudfront.net/trip-data/') -> None:
     """
-    Function to create the URL with which to download the parquet file from the NYC Taxi dataset
+    Function to load data from NYC taxi source into a staging directory
 
-    Then downloads file from URL
+    Uses check_directory to check that the target directory exists or create it if not
 
-    And places it in file-staging folder
+    Uses create_dl_url to choose the type of data to download + year/month
     """
 
     staging_path = check_directory(directory_name)
