@@ -9,5 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
+#logs
+taxi_pipeline.log
+
 # Staged files
 file-staging/
+
