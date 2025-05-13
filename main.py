@@ -1,7 +1,7 @@
-from stage_data import stage_data
+from stage_data import TaxiDataLoader
 import logging
 
-
+#configure logging
 def setup_logging():
     """
     Configure logging for the entire pipeline
@@ -16,17 +16,16 @@ def setup_logging():
         ]
     )
 
-
 def main():
-    print("Hello from taxi-project!")
     setup_logging()
 
     #function to check for new data
     #check_for_data()
 
     #function to load data if we have detected new data
-    stage_data(2024, 3, car_type = 'yellow')
-    
+    dataLoader = TaxiDataLoader()
+
+    dataLoader.download_file(2023, 1, 'yellow', 3)
 
 if __name__ == "__main__":
     main()
