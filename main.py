@@ -1,5 +1,7 @@
 from stage_data import TaxiDataLoader
+from prefect import flow
 import logging
+
 
 #configure logging
 def setup_logging():
@@ -16,6 +18,7 @@ def setup_logging():
         ]
     )
 
+@flow
 def main():
     setup_logging()
 
@@ -25,7 +28,7 @@ def main():
     #function to load data if we have detected new data
     dataLoader = TaxiDataLoader()
 
-    dataLoader.download_file(2023, 1, 'yellow', 3)
+    dataLoader.download_file(2023, 13, 'yellow', 3)
 
 if __name__ == "__main__":
     main()
