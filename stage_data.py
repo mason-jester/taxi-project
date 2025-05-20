@@ -2,9 +2,10 @@ import requests
 import os
 import logging
 from prefect import task
+import prefect.logging
 
 #instantiate a logger for stage_data
-logger = logging.getLogger(__name__)
+logger = prefect.logging.get_logger(__name__)
 
 class TaxiDataLoader:
     """
@@ -18,7 +19,7 @@ class TaxiDataLoader:
         self.staging_dir = os.path.join(os.getcwd(), 'file-staging')
 
         #initialize logger
-        self.logger = logging.getLogger(__name__)
+        self.logger = prefect.logging.get_logger(__name__)
 
         #this URL is shared for all taxi data downloads
         self.base_dl_url = 'https://d37ci6vzurychx.cloudfront.net/trip-data/'
